@@ -1,0 +1,1 @@
+this project is for dnn，which is convient model. You can choose some parameters for your owen application.
