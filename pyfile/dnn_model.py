@@ -4,15 +4,17 @@ import tensorflow as tf
 import pandas as pd
 
 import matplotlib.pyplot as plt
+from scipy.io import loadmat
+from sklearn import train_test_split
 from tensorflow.python import ops
 
 
 def init_parameters(layer_dims):
-    '''
+    """
     initialize network parameters
     :param layer_dims: a list, number of neuron for each layer
     :return: a dict, contains weights and bias
-    '''
+    """
 
     parameters = {}
 
@@ -172,7 +174,7 @@ def model(layer_dims, train_X, train_Y, test_X, test_Y, beta=0,learning_rate=0.0
 
 def get_set_data(dir_path):
     """
-    read csv file
+    read files from a dir
     :param dir_path: should be like ('./datasets/train_set/')
     :return: a matrix which contains all data read from csv file
     """
@@ -196,14 +198,47 @@ def get_set_data(dir_path):
     return train_set_data
 
 
-def get_train_test(dir_path, test_size):
+def get_train_test_from_csv(dir_path):
+    """
+    read data form of csv
+    :param dir_path: the dataset path
+    :return:train_x, train_y, test_x, test_y
+    """
     train_path = os.path.join(dir_path, 'train_set')
     test_path = os.path.join(dir_path, 'test_set')
 
     train_data = get_set_data(train_path)
     test_data = get_set_data(test_path)
 
+    train_x = train_data[, : -2]
+    train_y = train_data[:, -1]
 
+    test_x = test_data[, : -2]
+    test_y = test_data[:, -1]
+
+    return train_x.T, train_y, test_x.T, test_y
+
+
+def get_train_test_from_mat(dir_path, feature_name, label_name, test_size):
+    """
+    read data, form of .mat
+    :param dir_path: the dir path of .mat file
+    :param feature_name: the features name(note train file name should be the same as key
+    :param label_name: the label file name(note label file name should be the same as key
+    :param test_size: the size of test data set
+    :return: train_x, train_y, test_x, test_y
+    """
+    feature_path = os.path.join(dir_path, feature_name)
+    feature_path = feature_path + '.mat'
+    train_data = loadmat(feature_path).get(feature_name)
+
+    label_path = os.path.join(dir_path, label_name)
+    label_path = label_path + '.mat'
+    label_data = loadmat(label_path).get(label_name)
+
+    train_x, test_x, train_y, test_y = train_test_split(train_data, label_data, test_size=test_size)
+
+    return train_x, train_y, test_x, test_y
 
 
 if __name__ == '__main__':
