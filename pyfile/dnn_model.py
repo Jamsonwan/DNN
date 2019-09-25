@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from scipy.io import loadmat
 
 
 def init_parameters(layer_dims):
@@ -40,4 +41,12 @@ def forward_propagation(X, parameters):
 
 
 if __name__ == '__main__':
-    pass
+
+    data = loadmat('./datasets/features.mat').get('features')
+    label = loadmat('./datasets/label.mat').get('label')
+
+    classes = 3
+
+    layer_dims = [data.shape[0], 10, 6, 3, classes]
+
+    parameter = init_parameters(layer_dims=layer_dims)
