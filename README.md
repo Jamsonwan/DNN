@@ -4,8 +4,8 @@ This project is dnn，which is a convient model. You can choose some parameters 
   beta: denotes the l2 regularize parameter
  
  
- 这是一个通用的DNN模型，你只需要做简单修改就能将整个代码跑通。
- 其中做一下参数说明：
+ 这是一个通用的DNN模型，你只需要做简单修改就能将整个代码跑通。 其中做一下参数说明：
+ 
     classes: 是你要进行几分类的数目
     dirPath： 是你的数据所在的目录路径
     featureName: 是你的训练数据的文件名字，要求其key与文件名相同，否则会出错
